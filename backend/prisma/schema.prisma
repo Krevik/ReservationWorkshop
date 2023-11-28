@@ -1,0 +1,48 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email     String   @unique
+  role      UserRole     @default(USER)
+  name String @unique
+  password String
+  workshops Workshop[]
+  visits Visit[]
+}
+
+model Workshop {
+  id  Int @id @default(autoincrement())
+  name String
+  ownerId Int
+  owner   User    @relation(fields: [ownerId], references: [id])
+  visits Visit[]
+}
+
+model Visit {
+  id Int @id @default(autoincrement())
+  date DateTime
+  workshopId Int
+  workshop Workshop @relation(fields: [workshopId], references: [id])
+  status VisitStatus
+  reserverUserId Int
+  reservedBy User @relation(fields: [reserverUserId], references: [id])
+}
+
+enum VisitStatus {
+  WAITING_FOR_ACCEPTANCE
+  ACCEPTED
+  FINISHED
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
