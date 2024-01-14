@@ -22,6 +22,12 @@ const UserController = {
             const result: CommandResult = await UserService.registerUser(userName, password, email);
             res.send(result);
         }),
+    AUTHENTICATE_USER: (serverApp: Express) =>
+        serverApp.post(`${controllerPath}/authenticate`, async (req: Request, res: Response) => {
+            const { userName, password } = req.body;
+            const result: CommandResult = await UserService.loginUser(userName, password);
+            res.send(result);
+        }),
 };
 
 export const UserControllerService = {
@@ -29,5 +35,6 @@ export const UserControllerService = {
         UserController.GET_USERS(serverApp);
         UserController.GET_USER_BY_ID(serverApp);
         UserController.REGISTER_USER(serverApp);
+        UserController.AUTHENTICATE_USER(serverApp);
     },
 };

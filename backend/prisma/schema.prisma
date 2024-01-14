@@ -5,35 +5,37 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/client"
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  email     String   @unique
-  role      UserRole     @default(USER)
-  name String @unique
-  password String
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  email     String     @unique
+  role      UserRole   @default(USER)
+  name      String     @unique
+  authToken String?    @unique
+  password  String
   workshops Workshop[]
-  visits Visit[]
+  visits    Visit[]
 }
 
 model Workshop {
-  id  Int @id @default(autoincrement())
-  name String
+  id      Int     @id @default(autoincrement())
+  name    String  @unique
   ownerId Int
   owner   User    @relation(fields: [ownerId], references: [id])
-  visits Visit[]
+  visits  Visit[]
 }
 
 model Visit {
-  id Int @id @default(autoincrement())
-  date DateTime
-  workshopId Int
-  workshop Workshop @relation(fields: [workshopId], references: [id])
-  status VisitStatus
+  id             Int         @id @default(autoincrement())
+  date           DateTime
+  workshopId     Int
+  workshop       Workshop    @relation(fields: [workshopId], references: [id])
+  status         VisitStatus
   reserverUserId Int
-  reservedBy User @relation(fields: [reserverUserId], references: [id])
+  reservedBy     User        @relation(fields: [reserverUserId], references: [id])
 }
 
 enum VisitStatus {

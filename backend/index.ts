@@ -1,9 +1,9 @@
 import { Application, Express, Request, Response } from "express";
 import express = require("express");
 import bodyParser = require("body-parser");
-import { PrismaClient } from "@prisma/client";
 import cors = require("cors");
 import { UserControllerService } from "./src/user/UserController";
+import { PrismaClient } from "@prisma/client";
 
 export const prisma = new PrismaClient();
 const serverApp: Express = express();
