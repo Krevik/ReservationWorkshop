@@ -14,7 +14,7 @@ model User {
   email     String     @unique
   role      UserRole   @default(USER)
   name      String     @unique
-  authToken String?    @unique
+  authToken String?
   password  String
   workshops Workshop[]
   visits    Visit[]

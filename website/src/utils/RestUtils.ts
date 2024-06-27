@@ -5,6 +5,11 @@ interface ApiResponse<T> {
     data: T;
 }
 
+export interface AuthenticationRequest {
+    userNameReq: string;
+    authToken: string;
+}
+
 const handleApiResponse = <T>(response: AxiosResponse<ApiResponse<T>>): T => response.data as T;
 
 //TODO, notification?

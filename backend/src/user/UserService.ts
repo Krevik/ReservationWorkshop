@@ -1,12 +1,13 @@
 import { CommandResult } from "../utils/CommandResult";
 import { UserValidation } from "./UserValidation";
 import { prisma } from "../../index";
-import { User } from "@prisma/client";
 import { randomBytes } from "node:crypto";
+import { User } from "../generated/client";
 
 export interface UserAuthenticationData {
     authToken: string;
     userId: number;
+    userName: string;
 }
 
 export const UserService = {
@@ -27,34 +28,32 @@ export const UserService = {
         }
 
         try {
-            await prisma.user.create({ data: { name: userName, password: password, email: email, authToken: "" } });
+            await prisma.user.create({ data: { name: userName, password: password, email: email } });
             return CommandResult.success();
         } catch (exception) {
             //TODO fix error handling?
             return CommandResult.failure(JSON.stringify(exception));
         }
     },
-    //TODO crypto , change to some new type of command result
-    loginUser: async (userName: string, password: string): Promise<UserAuthenticationData | null> => {
-        const user: User | null = await prisma.user.findUnique({ where: { name: userName, password: password } });
+    loginUser: async (userName: string, hashedPassword: string): Promise<UserAuthenticationData | null> => {
+        const user: User | null = await prisma.user.findUnique({ where: { name: userName, password: hashedPassword } });
         if (!user) {
             return null;
         }
-        //TODO generate some token and put it in the request
-        const uniqueAuthToken: string = randomBytes(256).toString("hex");
+
+        const uniqueAuthToken: string = randomBytes(16).toString("hex");
         try {
             await prisma.user.update({ where: { id: user.id }, data: { authToken: uniqueAuthToken } });
-            return { userId: user.id, authToken: uniqueAuthToken };
+            return { userId: user.id, authToken: uniqueAuthToken, userName: user.name };
         } catch (e) {
             return null;
         }
     },
-    //TODO crypto
     authenticateUserByToken: async (userName: string, authToken: string): Promise<UserAuthenticationData | null> => {
         const user: User | null = await prisma.user.findUnique({ where: { name: userName, authToken: authToken } });
         if (!user) {
             return null;
         }
-        return { authToken: authToken, userId: user.id };
+        return { authToken: authToken, userId: user.id, userName: user.name };
     },
 };

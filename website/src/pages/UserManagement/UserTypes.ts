@@ -10,3 +10,14 @@ export enum UserRole {
     ADMIN = "ADMIN",
     USER = "USER",
 }
+
+export interface UserCreationDTO {
+    userName: string;
+    email: string;
+    password: string;
+}
+
+export interface UserAuthenticationDTO {
+    userName: string;
+    hashedPassword: string;
+}

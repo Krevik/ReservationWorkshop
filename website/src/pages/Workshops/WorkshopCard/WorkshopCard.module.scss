@@ -1,0 +1,13 @@
+.workshopCard {
+  border-radius: 1rem;
+  width: 100%;
+}
+
+.workshopCard:hover {
+  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+}

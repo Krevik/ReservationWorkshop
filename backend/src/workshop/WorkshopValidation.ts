@@ -7,7 +7,7 @@ export const WorkshopValidation = {
             return CommandResult.failure("Workshop name is blank or is shorter than 3 characters");
         }
         if (await WorkshopFinder.findByName(workshopName)) {
-            return CommandResult.failure("This user name is already taken");
+            return CommandResult.failure("This workshop name is already taken");
         }
         return CommandResult.success();
     },

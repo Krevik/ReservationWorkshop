@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { notificationsReducer } from "./slices/NotificationsSlice.ts";
+import { userDetailsReducer } from "./slices/UserDetailsSlice.ts";
 
 const combinedReducers = combineReducers({
     notificationsReducer: notificationsReducer,
+    userDetailsReducer: userDetailsReducer,
 });
 
 export const appStore = configureStore({

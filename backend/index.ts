@@ -3,7 +3,8 @@ import express = require("express");
 import bodyParser = require("body-parser");
 import cors = require("cors");
 import { UserControllerService } from "./src/user/UserController";
-import { PrismaClient } from "@prisma/client";
+import { WorkshopControllerService } from "./src/workshop/WorkshopController";
+import { PrismaClient } from "./src/generated/client";
 
 export const prisma = new PrismaClient();
 const serverApp: Express = express();
@@ -19,6 +20,7 @@ serverApp.use(bodyParser.json());
 serverApp.use(bodyParser.urlencoded({ extended: true }));
 
 UserControllerService.registerUserController(serverApp);
+WorkshopControllerService.registerController(serverApp);
 
 serverApp.get("/", (req: Request, res: Response) => {
     res.send("I am up and running");

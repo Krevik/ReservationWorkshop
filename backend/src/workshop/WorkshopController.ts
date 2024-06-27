@@ -1,11 +1,10 @@
 import { Express, Request, Response } from "express";
-import { UserDTO, UserFinder } from "../user/UserFinder";
 import { CommandResult } from "../utils/CommandResult";
-import { UserService } from "../user/UserService";
 import { WorkshopDTO, WorkshopFinder } from "./WorkshopFinder";
 import { WorkshopService } from "./WorkshopService";
-import { UserAuthentication } from "../security/UserAuthentication";
 import { ExtendedExpres } from "../utils/ExtendedExpres";
+import { UserAuthentication } from "../security/UserAuthentication";
+import { UserAuthenticationData } from "../user/UserService";
 
 const controllerPath: string = "/workshop";
 const UserController = {
@@ -26,20 +25,11 @@ const UserController = {
             const result: WorkshopDTO[] = await WorkshopFinder.findAllByOwnerId(parseInt(ownerUserId));
             res.send(result);
         }),
-    // CREATE_NEW: (serverApp: Express) =>
-    //     serverApp.post(`${controllerPath}/createNew`, async (req: Request, res: Response) => {
-    //         const { workshopName, password } = req.body;
-    //         const userAuthentication: UserAuthentication = await new UserAuthentication(req).checkAuth();
-    //         //TODO
-    //
-    //         const result: CommandResult = await WorkshopService.createWorkshop(workshopName, password);
-    //         res.send(result);
-    //     }),
     CREATE_NEW: (serverApp: Express) =>
-        ExtendedExpres.authenticatedPost(serverApp, `${controllerPath}/createNew`, async (req: Request, res: Response) => {
-            const { workshopName, password } = req.body;
+        ExtendedExpres.authenticatedPost(serverApp, `${controllerPath}/createNew`, async (req: Request, res: Response, userAuthData: UserAuthenticationData) => {
+            const { workshopName } = req.body;
 
-            const result: CommandResult = await WorkshopService.createWorkshop(workshopName, password);
+            const result: CommandResult = await WorkshopService.createWorkshop(workshopName, userAuthData.userId);
             res.send(result);
         }),
 };

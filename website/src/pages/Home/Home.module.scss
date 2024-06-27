@@ -1,0 +1,14 @@
+.backgroundImage {
+  background: rgb(55, 63, 86);
+  box-shadow: none;
+}
+
+.backgroundImage::after{
+  content: "";
+  width: 20rem;
+  height: 20rem;
+  left: 0px;
+  position: absolute;
+  opacity: 0.25;
+  background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
+}

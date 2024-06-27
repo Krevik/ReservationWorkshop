@@ -20,6 +20,14 @@ export class UserAuthentication {
         return this.isAuthenticated;
     }
 
+    public getMessage(): string | undefined {
+        return this.message;
+    }
+
+    public getAuthData(): UserAuthenticationData | undefined {
+        return this.getIsAuthenticated() ? { authToken: this.authToken!, userId: this.userId!, userName: this.userName! } : undefined;
+    }
+
     public async checkAuth() {
         if (!this.userName || !this.authToken) {
             this.isAuthenticated = false;

@@ -3,7 +3,7 @@
  * Client
 **/
 
-import * as runtime from './runtime/library';
+import * as runtime from './runtime/library.js';
 import $Types = runtime.Types // general types
 import $Public = runtime.Types.Public
 import $Utils = runtime.Types.Utils
@@ -267,8 +267,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 5.8.0
-   * Query Engine version: 0a83d8541752d7582de2ebc1ece46519ce72a848
+   * Prisma Client JS version: 5.9.1
+   * Query Engine version: 23fdc5965b1e05fc54e5f26ed3de66776b93de64
    */
   export type PrismaVersion = {
     client: string
@@ -4271,16 +4271,16 @@ export namespace Prisma {
     id?: number
     email?: string
     name?: string
-    authToken?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     createdAt?: DateTimeFilter<"User"> | Date | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    authToken?: StringNullableFilter<"User"> | string | null
     password?: StringFilter<"User"> | string
     workshops?: WorkshopListRelationFilter
     visits?: VisitListRelationFilter
-  }, "id" | "email" | "name" | "authToken">
+  }, "id" | "email" | "name">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder

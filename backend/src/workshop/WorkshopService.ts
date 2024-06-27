@@ -1,6 +1,5 @@
 import { CommandResult } from "../utils/CommandResult";
 import { prisma } from "../../index";
-import { User } from "@prisma/client";
 import { WorkshopValidation } from "./WorkshopValidation";
 
 export const WorkshopService = {
